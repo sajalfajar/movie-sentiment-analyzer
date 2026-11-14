@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sentiflix | Model Results</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+
+  <nav>
+    <div class="logo">🎬 Senti<span>flix</span></div>
+    <div class="links">
+      <a href="index.html">Analyzer</a>
+      <a href="metrics.html" class="active">Model Results</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="tag fade">📊 Evaluation</div>
+    <h1 class="fade d1">Model <span>Comparison</span></h1>
+    <p class="fade d2">Three models were trained on 25,000 IMDB reviews and tested on 25,000 unseen reviews.</p>
+  </section>
+
+  <main class="wrap">
+    <div class="card fade d3">
+      <h2>Scores 🏆</h2>
+      <p class="sub">The best model (highest F1) is highlighted in green.</p>
+      <table id="tbl"></table>
+    </div>
+
+    <div class="card fade d4">
+      <h2>Comparison Chart</h2>
+      <img class="full" src="/charts/model_comparison.png" alt="Model comparison">
+    </div>
+
+    <div class="card fade d4">
+      <h2>Confusion Matrices</h2>
+      <p class="sub">Shows where each model is right and wrong.</p>
+      <div class="grid">
+        <div><img src="/charts/cm_Naive_Bayes.png" alt="Naive Bayes"><p>Naive Bayes</p></div>
+        <div><img src="/charts/cm_Logistic_Regression.png" alt="Logistic Regression"><p>Logistic Regression</p></div>
+        <div><img src="/charts/cm_SVM.png" alt="SVM"><p>SVM</p></div>
+      </div>
+    </div>
+  </main>
+
+  <footer>Made with 💜 by <b>Sajal Fajar</b><br>NLP Course Project · Abasyn University</footer>
+  <script src="script.js"></script>
+</body>
+</html>

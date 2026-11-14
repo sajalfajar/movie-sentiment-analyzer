@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sentiflix | Movie Sentiment Analyzer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+
+  <nav>
+    <div class="logo">🎬 Senti<span>flix</span></div>
+    <div class="links">
+      <a href="index.html" class="active">Analyzer</a>
+      <a href="metrics.html">Model Results</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="tag fade">✨ NLP Sentiment Analysis</div>
+    <h1 class="fade d1">Understand what people <br><span>feel about a movie</span></h1>
+    <p class="fade d2">
+      This website reads a movie review and tells whether the writer felt positive or negative.
+      It uses Natural Language Processing and a machine learning model trained on 50,000 IMDB reviews.
+    </p>
+    <div class="hero-btns fade d3">
+      <a href="#analyzer" class="btn-main">Try it now 🚀</a>
+      <a href="#how" class="btn-soft">How it works</a>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="wrap" id="how">
+    <div class="steps fade d4">
+      <div class="step"><div class="num">1</div><h3>✍️ Write</h3><p>Type or paste any movie review.</p></div>
+      <div class="step"><div class="num">2</div><h3>🧠 Analyze</h3><p>The model reads the words and finds the feeling.</p></div>
+      <div class="step"><div class="num">3</div><h3>🎯 Result</h3><p>You get Positive or Negative with a confidence score.</p></div>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <!-- ANALYZER -->
+    <div class="card fade d3" id="analyzer">
+      <h2>Try it yourself 💜</h2>
+      <p class="sub">Type your own review or pick an example.</p>
+      <textarea id="review" placeholder="Type your movie review here..."></textarea>
+      <div class="examples">
+        <small>Examples:</small>
+        <button class="chip" data-text="An absolutely wonderful movie, great acting and a beautiful story. I loved every minute.">😍 Positive</button>
+        <button class="chip" data-text="A terrible film, awful acting and a boring plot. Complete waste of time.">😡 Negative</button>
+        <button class="chip" data-text="The acting was brilliant and the story was touching, but the ending was boring and the pacing felt terrible.">🤔 Mixed</button>
+      </div>
+      <button id="btn"><span id="btnText">Analyze Review</span></button>
+
+      <div id="result" class="hidden">
+        <div id="emoji"></div>
+        <div id="label"></div>
+        <div class="bar"><div id="fill"></div></div>
+        <div id="conf"></div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats fade d4">
+      <div class="stat"><b data-count="50000">0</b><span>Reviews used</span></div>
+      <div class="stat"><b data-count="3">0</b><span>Models compared</span></div>
+      <div class="stat"><b id="accStat" data-count="88.3" data-dec="1" data-suffix="%">0</b><span>Best accuracy</span></div>
+      <div class="stat"><b style="font-size:18px;line-height:42px">Logistic Reg.</b><span>Best model</span></div>
+    </div>
+
+    <!-- USE CASES -->
+    <h2 class="section-title">Where is this useful? 💡</h2>
+    <div class="uses">
+      <div class="use"><div class="ico">🎥</div><h3>Movie platforms</h3><p>Understand audience opinion without reading thousands of reviews.</p></div>
+      <div class="use"><div class="ico">🛍️</div><h3>Product feedback</h3><p>The same idea works for customer reviews of any product.</p></div>
+      <div class="use"><div class="ico">📣</div><h3>Social media</h3><p>Track how people feel about a topic, brand or event.</p></div>
+    </div>
+
+    <!-- TECH -->
+    <h2 class="section-title">Built with 🛠️</h2>
+    <div class="tech">
+      <span>Python</span><span>scikit-learn</span><span>TF-IDF</span><span>Logistic Regression</span><span>FastAPI</span><span>HTML · CSS · JS</span>
+    </div>
+  </main>
+
+  <footer>Made with 💜 by <b>Sajal Fajar</b><br>NLP Course Project · Abasyn University</footer>
+  <script src="script.js"></script>
+</body>
+</html>
