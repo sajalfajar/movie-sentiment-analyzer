@@ -4,6 +4,7 @@ An NLP project that classifies movie reviews as **positive** or **negative**.
 
 **Made by:** Sajal Fajar
 **Course:** NLP Course Project, Abasyn University
+**Live Demo:** https://movie-sentiment-analyzer-mu.vercel.app/
 
 ## Features
 - Trained on 50,000 IMDB reviews
