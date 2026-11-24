@@ -18,13 +18,12 @@ function countUp(el) {
 }
 
 // real numbers from the model
-fetch("/api/metrics").then(r => r.json()).then(data => {
+fetch("metrics.json").then(r => r.json()).then(data => {
   const best = data.results[data.best];
   const acc = document.getElementById("accStat");
   if (acc) acc.dataset.count = (best.accuracy * 100).toFixed(1);
   document.querySelectorAll("[data-count]").forEach(countUp);
 
-  // table on results page
   const tbl = document.getElementById("tbl");
   if (tbl) {
     let html = "<tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th></tr>";
@@ -43,6 +42,51 @@ document.querySelectorAll(".chip").forEach(chip => {
   });
 });
 
+// ---------- Model running inside the browser ----------
+let MODEL = null;
+const modelReady = fetch("model.json").then(r => r.json()).then(m => {
+  MODEL = m;
+  MODEL.stopSet = new Set(m.stop_words);
+});
+
+function cleanText(text) {
+  return text.toLowerCase()
+    .replace(/<.*?>/g, " ")
+    .replace(/[^a-z\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function predict(text) {
+  const clean = cleanText(text);
+  const tokens = clean.split(" ").filter(w => w.length >= 2 && !MODEL.stopSet.has(w));
+
+  const counts = {};
+  const add = t => { if (t in MODEL.vocab) counts[t] = (counts[t] || 0) + 1; };
+  tokens.forEach(add);
+  for (let i = 0; i < tokens.length - 1; i++) add(tokens[i] + " " + tokens[i + 1]);
+
+  let norm = 0;
+  const vals = {};
+  for (const t in counts) {
+    const idx = MODEL.vocab[t];
+    const v = counts[t] * MODEL.idf[idx];
+    vals[idx] = v;
+    norm += v * v;
+  }
+  norm = Math.sqrt(norm) || 1;
+
+  let score = MODEL.intercept;
+  for (const idx in vals) score += MODEL.coef[idx] * (vals[idx] / norm);
+
+  const pPos = 1 / (1 + Math.exp(-score));
+  const isPos = pPos >= 0.5;
+  return {
+    sentiment: isPos ? "Positive" : "Negative",
+    confidence: Math.round((isPos ? pPos : 1 - pPos) * 1000) / 10,
+  };
+}
+
 // analyze
 const btn = document.getElementById("btn");
 if (btn) {
@@ -55,17 +99,13 @@ if (btn) {
     btn.disabled = true;
 
     try {
-      const res = await fetch("/predict", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: text }),
-      });
-      const data = await res.json();
+      await modelReady;
+      const data = predict(text);
       const isPos = data.sentiment === "Positive";
 
       const box = document.getElementById("result");
       box.className = (isPos ? "pos" : "neg");
-      void box.offsetWidth; // restart animation
+      void box.offsetWidth;
       box.classList.add("show");
       document.getElementById("emoji").textContent = isPos ? "😍" : "😞";
       document.getElementById("label").textContent = data.sentiment + " Review";
@@ -74,7 +114,7 @@ if (btn) {
       fill.style.width = "0";
       setTimeout(() => (fill.style.width = data.confidence + "%"), 50);
     } catch (e) {
-      alert("Server not running. Start uvicorn first.");
+      alert("Model file could not be loaded.");
     }
     btnText.textContent = "Analyze Review";
     btn.disabled = false;
